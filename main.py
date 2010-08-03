@@ -14,12 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import logging
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
+        logging.info("Hello, logs!")
         self.response.out.write('Hello world!')
 
 
