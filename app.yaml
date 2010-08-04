@@ -5,9 +5,9 @@ api_version: 1
 
 handlers:
 - url: /_ah/mail/sms@peerhealthexchangeorg\.appspotmail\.com
-  script: handle_sms.py
-- url: .*
-  script: main.py
+  script: controller/handle_sms.py
+- url: /
+  script: controller/main.py
 
 inbound_services:
 - mail
