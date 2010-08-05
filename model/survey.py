@@ -150,5 +150,29 @@ class MultipleChoiceResponseSummary(QuestionResponseSummary):
 class SurveyResponseSummary(object):
     """
     How did a set of participants respond to a particular survey?
+    
+    @param survey: the survey instance this response applies to, or None if it couldn't be parsed.
+    @param question_responses: iterable (possibly empty) of QuestionResponseSummary objects
+    @param raw: a string representing the raw form of the response, or None.
     """
-    pass
+    def __init__(self, survey=None, question_responses=(,), raw=None):
+        self.survey = survey
+        self.question_responses = tuple(question_responses)
+        self.raw = raw
+        
+    def __iter__(self):
+        return iter(self.question_responses)
+        
+    @property
+    def survey_id(self):
+        return self.survey.id if self.survey else None
+        
+    @property
+    def question_ids(self):
+        return map(lambda s: s.question_id, self.question_responses)
+        
+    def __eq__(self, other):
+        return (
+            self.survey == other.survey and
+            self.question_responses == other.question_responses
+        )
