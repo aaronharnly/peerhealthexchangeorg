@@ -26,7 +26,7 @@ class MultipleChoiceQuestion(Question):
     """
     def __init__(self, id, options):
         Question.__init__(self, id)
-        self.options = frozenset(options)
+        self.options = tuple(options)
         
     def __eq__(self, other):
         return (
@@ -36,6 +36,13 @@ class MultipleChoiceQuestion(Question):
         
     def __hash__(self):
         return hash((self.id, self.options))
+        
+    _FIRST_OPTION = 'a'
+        
+    @classmethod
+    def with_n_options(cls, id, n):
+        options = map(chr, range(ord(cls._FIRST_OPTION), ord(cls._FIRST_OPTION) + n))
+        return cls(id=id, options=options)
 
 class Survey(object):
     """
@@ -45,8 +52,16 @@ class Survey(object):
     @param questions: an iterable of Questions
     """
     def __init__(self, id, questions):
-        self.id = name
+        self.id = id
         self.questions = tuple(questions)
+        
+    def __len__(self):
+        return len(self.questions)
+        
+    def __getitem__(self, key):
+        """
+        Given either a question id or an index, returns the question
+        """
         
     def __eq__(self, other):
         return (
