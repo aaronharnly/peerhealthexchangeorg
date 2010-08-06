@@ -151,11 +151,15 @@ class SurveyResponseSummary(object):
     """
     How did a set of participants respond to a particular survey?
     
+    @param timestamp: datetime of the survey
+    @param surveyor: string describing who performed the survey
     @param survey: the survey instance this response applies to, or None if it couldn't be parsed.
     @param question_responses: iterable (possibly empty) of QuestionResponseSummary objects
     @param raw: a string representing the raw form of the response, or None.
     """
-    def __init__(self, survey=None, question_responses=(,), raw=None):
+    def __init__(self, timestamp, surveyor, survey=None, question_responses=(), raw=None):
+        self.timestamp = timestamp
+        self.surveyor = surveyor
         self.survey = survey
         self.question_responses = tuple(question_responses)
         self.raw = raw
