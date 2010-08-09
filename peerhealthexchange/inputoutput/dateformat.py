@@ -13,5 +13,5 @@ class DateFormatter(object):
     def date_from_text(self, text):
         return datetime.strptime(text, self.format)
 
-DEFAULT_DATE_FORMATTER = DateFormatter('%a, %d %b %Y %H:%M:%S +0000')
+DEFAULT_DATE_FORMATTER = DateFormatter('%a, %d %b %Y %H:%M:%S %Z')
 

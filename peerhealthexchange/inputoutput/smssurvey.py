@@ -1,6 +1,8 @@
 """
 Handles parsing an emailed SMS survey response into a SurveyResponseSummary model object.
 """
+from email.utils import parseaddr
+from dateutil.parser import parse
 
 from peerhealthexchange.model import SurveyResponseSummary
 
@@ -15,8 +17,13 @@ class SMSSurveyParser(object):
         
         @param mail_message
         """
+        timestamp = parse(mail_message.date)
+        plaintext_bodies = map(lambda b: b[1].decode(), mail_message.bodies('text/plain'))
+        plaintext_body = plaintext_bodies[0]
+        sender_name = parseaddr(mail_message.sender)[0]
+        
         return SurveyResponseSummary(
-            timestamp=message.date,
-            surveyor=message.sender,
-            raw=message.body
+            timestamp=timestamp,
+            surveyor=sender_name,
+            raw=plaintext_body
         )
