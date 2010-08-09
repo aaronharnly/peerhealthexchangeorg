@@ -11,3 +11,5 @@ handlers:
 
 inbound_services:
 - mail
+derived_file_type:
+- python_precompiled
