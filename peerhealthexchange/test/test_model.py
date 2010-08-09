@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from model.survey import MultipleChoiceQuestion, Survey, MultipleChoiceResponseSummary
+from peerhealthexchange.model.survey import MultipleChoiceQuestion, Survey, MultipleChoiceResponseSummary
 
 class TestMultipleChoiceQuestion(TestCase):
     def test_creation(self):

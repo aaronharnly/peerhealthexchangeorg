@@ -1,3 +1,7 @@
+"""
+Representations of survey questions and responses.
+"""
+
 class Question(object):
     """
     @param id: some unique identifier
@@ -54,14 +58,30 @@ class Survey(object):
     def __init__(self, id, questions):
         self.id = id
         self.questions = tuple(questions)
+        self._questions_by_id = dict((
+            (question.id, question)
+            for question in self.questions
+        ))
         
     def __len__(self):
         return len(self.questions)
         
     def __getitem__(self, key):
         """
-        Given either a question id or an index, returns the question
+        Given either a question id or an index, returns the question.
+        
+        Raises a KeyError if no matching id or index is found.
         """
+        if key in self._questions_by_id:
+            return self._questions_by_id[key]
+        elif key.isdigit():
+            index = int(key)
+            if index >= 0 and index < len(self.questions):
+                return self.questions[index]
+            else:
+                raise KeyError("Don't know a question with index %d" % index)
+        else:
+            raise KeyError("Don't know a question with ID %s" % key)
         
     def __eq__(self, other):
         return (
@@ -80,7 +100,7 @@ class Survey(object):
             self.id,
             self.questions
         )
-
+        
 class QuestionResponseSummary(object):
     """
     Abstract base class.
